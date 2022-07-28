@@ -1,0 +1,54 @@
+
+#main-container {
+    display: flex;
+    width: 100%;
+    background-image: url("../../images/ltn_bg.jpg");
+    background-repeat: no-repeat;
+}
+
+.search-location-container {
+    display: flex;
+    align-self: center;
+    margin-top: 10%;
+}
+
+#weather-main-container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    border-style: solid;
+    border-color: white;
+    margin-top: 1%;
+    visibility: hidden;
+}
+
+#location-name-span {
+    color: white;
+}
+
+#temp-header {
+    color: white;
+}
+
+#description-span {
+    color: white;
+}
+
+#currentTime-span {
+    color: white;
+}
+
+
+#weather-image-container {
+}
+
+#weather-image {
+    width: 50%;
+    margin-left: 18%;
+
+}
+
+
+
+

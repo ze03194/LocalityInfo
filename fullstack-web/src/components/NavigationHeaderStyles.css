@@ -1,0 +1,11 @@
+.navigation-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    /*border-style: solid;*/
+}
+
+.navigation-links {
+    text-decoration: none;
+    color: white;
+}
