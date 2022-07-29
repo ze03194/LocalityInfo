@@ -18,7 +18,6 @@ function Login() {
         )
     }
 
-
     return (
         <div id="main-container">
             <NavigationHeader/>

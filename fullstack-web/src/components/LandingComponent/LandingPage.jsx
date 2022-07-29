@@ -5,6 +5,11 @@ import axios from "axios";
 import moment from "moment-timezone";
 import {config} from "../../api/config";
 
+/*
+    Landing Page where users are first directed when accessing the site
+    Permits the user to provide a zip code and displays weather related information for that locality
+    Users will be able to register and login to unlock more features as an incentive to register with us
+ */
 function LandingPage() {
     const [data, setData] = useState({});
     const [location, setLocation] = useState('');
@@ -30,7 +35,10 @@ function LandingPage() {
 
     }, [data])
 
-
+    /*
+        If the user presses the 'Enter' key, execute the axios get request to the OpenWeatherMap API
+        and setData with the response
+     */
     const searchLocation = (event) => {
         if (event.key === 'Enter') {
             axios.get(url)
@@ -44,62 +52,68 @@ function LandingPage() {
         }
     }
 
+    /*
+        Provides the logic to determine the correct weather related image to display to the user
+     */
     function getProperImage(description) {
         const currentTimeLocal = Date.parse('01/01/2022 ' + getCurrentTime())
         const sunSet = Date.parse('01/01/2022 ' + getSunset())
         const sunRise = Date.parse('01/01/2022 ' + getSunrise())
         description = description.toUpperCase();
 
-        if (description.includes("CLEAR") && (getCurrentTime() < "12:00 AM") && (currentTimeLocal < sunSet)) {
+        if (description.includes("CLEAR") && (currentTimeLocal > sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/Sunny.png")
             image.hidden = false
-        } else if (description.includes("CLEAR") && (getCurrentTime() > "12:00 AM") && (currentTimeLocal < sunRise)) {
+        } else if (description.includes("CLEAR") && (currentTimeLocal < sunRise)) {
             image.src = require("../../images/ClearNight.png")
             image.hidden = false
         }
 
-        if ((description.includes("CLOUD") || description.includes("HAZE")) && (getCurrentTime() < "12:00 AM") && (currentTimeLocal > sunSet)) {
+        if ((description.includes("CLOUD") || description.includes("HAZE")) && (currentTimeLocal > sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/PartlyCloudyDay.png")
             image.hidden = false
-        } else if ((description.includes("CLOUD") || description.includes("HAZE")) && (getCurrentTime() > "12:00 AM") && (currentTimeLocal < sunSet)) {
+        } else if ((description.includes("CLOUD") || description.includes("HAZE")) && (currentTimeLocal < sunRise)) {
             image.src = require("../../images/PartlyCloudyNight.png")
             image.hidden = false
         }
 
-        if (description.includes("RAIN") && (getCurrentTime() < "12:00 AM") && (currentTimeLocal > sunSet)) {
+        if (description.includes("RAIN") && (currentTimeLocal < sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/ModRainSwrsDay.png")
             image.hidden = false
-        } else if (description.includes("RAIN") && (currentTimeLocal > sunSet)) {
+        } else if (description.includes("RAIN") && (currentTimeLocal > sunRise)) {
             image.src = require("../../images/ModRainSwrsNight.png")
             image.hidden = false
         }
 
-        if (description.includes("MIST") && (getCurrentTime() < "12:00 AM") && (currentTimeLocal > sunSet)) {
+        if (description.includes("MIST") && (currentTimeLocal < sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/IsoRainSwrsDay.png")
             image.hidden = false
-        } else if (description.includes("MIST") && (getCurrentTime() < "12:00 AM") && (currentTimeLocal > sunSet)) {
+        } else if (description.includes("MIST") && (currentTimeLocal > sunRise)) {
             image.src = require("../../images/IsoRainSwrsNight.png")
             image.hidden = false
         }
 
-        if (description.includes("RAIN") && description.includes("THUNDER") && (getCurrentTime() < "12:00 AM") && (currentTimeLocal > sunSet)) {
+        if (description.includes("RAIN") && description.includes("THUNDER") && (currentTimeLocal < sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/PartCloudRainThunderDay.png")
             image.hidden = false
-        } else if (description.includes("RAIN") && description.includes("THUNDER") && (currentTimeLocal > sunSet)) {
+        } else if (description.includes("RAIN") && description.includes("THUNDER") && (currentTimeLocal > sunRise)) {
             image.src = require("../../images/PartCloudRainThunderNight.png")
             image.hidden = false
         }
 
-        if (description.includes("SNOW") && (getCurrentTime() < "12:00 AM") && (currentTimeLocal > sunSet)) {
+        if (description.includes("SNOW") && (currentTimeLocal < sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/ModSnowSwrsDay.png")
             image.hidden = false
-        } else if (description.includes("SNOW") && (currentTime > sunSet)) {
+        } else if (description.includes("SNOW") && (currentTime > sunRise)) {
             image.src = require("../../images/ModSnowSwrsNight.png")
             image.hidden = false
         }
 
     }
 
+    /*
+        Retrieves the current time at the time-zone of the locality being searched for
+     */
     const getCurrentTime = () => {
         const zip_to_timezone = require('zipcode-to-timezone');
         const tz = zip_to_timezone.lookup(location);
@@ -107,6 +121,9 @@ function LandingPage() {
         return moment().tz(tz).format("h:mm A");
     }
 
+    /*
+        Retrieves the time of sunset for the time-zone of the locality being searched for
+     */
     const getSunset = () => {
         const zip_to_timezone = require('zipcode-to-timezone');
         const tz = zip_to_timezone.lookup(location);
@@ -116,6 +133,9 @@ function LandingPage() {
         return convertMoment.tz(tz).format('h:mm A')
     }
 
+    /*
+        Retrieves the time of sunrise for the time-zone of the locality being searched for
+     */
     const getSunrise = () => {
         const zip_to_timezone = require('zipcode-to-timezone');
         const tz = zip_to_timezone.lookup(location);
@@ -142,8 +162,8 @@ function LandingPage() {
             <div id="weather-main-container">
                 <div id="weather-image-container">
                     <img id="weather-image"
-                         src={require('../../images/Blizzard.png')}
-                         hidden={true}/>
+                         hidden={true}
+                         alt={''}/>
                 </div>
                 {data.main ? <span id="location-name-span">{locationName}</span> : null}
                 {data.main ? <span id="currentTime-span">{currentTime}</span> : null}
