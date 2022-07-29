@@ -77,34 +77,34 @@ function LandingPage() {
             image.hidden = false
         }
 
-        if (description.includes("RAIN") && (currentTimeLocal < sunRise) && (currentTimeLocal < sunSet)) {
+        if (description.includes("RAIN") && (currentTimeLocal > sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/ModRainSwrsDay.png")
             image.hidden = false
-        } else if (description.includes("RAIN") && (currentTimeLocal > sunRise)) {
+        } else if (description.includes("RAIN") && (currentTimeLocal < sunRise)) {
             image.src = require("../../images/ModRainSwrsNight.png")
             image.hidden = false
         }
 
-        if (description.includes("MIST") && (currentTimeLocal < sunRise) && (currentTimeLocal < sunSet)) {
+        if (description.includes("MIST") && (currentTimeLocal > sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/IsoRainSwrsDay.png")
             image.hidden = false
-        } else if (description.includes("MIST") && (currentTimeLocal > sunRise)) {
+        } else if (description.includes("MIST") && (currentTimeLocal < sunRise)) {
             image.src = require("../../images/IsoRainSwrsNight.png")
             image.hidden = false
         }
 
-        if (description.includes("RAIN") && description.includes("THUNDER") && (currentTimeLocal < sunRise) && (currentTimeLocal < sunSet)) {
+        if (description.includes("RAIN") && description.includes("THUNDER") && (currentTimeLocal > sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/PartCloudRainThunderDay.png")
             image.hidden = false
-        } else if (description.includes("RAIN") && description.includes("THUNDER") && (currentTimeLocal > sunRise)) {
+        } else if (description.includes("RAIN") && description.includes("THUNDER") && (currentTimeLocal < sunRise)) {
             image.src = require("../../images/PartCloudRainThunderNight.png")
             image.hidden = false
         }
 
-        if (description.includes("SNOW") && (currentTimeLocal < sunRise) && (currentTimeLocal < sunSet)) {
+        if (description.includes("SNOW") && (currentTimeLocal > sunRise) && (currentTimeLocal < sunSet)) {
             image.src = require("../../images/ModSnowSwrsDay.png")
             image.hidden = false
-        } else if (description.includes("SNOW") && (currentTime > sunRise)) {
+        } else if (description.includes("SNOW") && (currentTime < sunRise)) {
             image.src = require("../../images/ModSnowSwrsNight.png")
             image.hidden = false
         }
