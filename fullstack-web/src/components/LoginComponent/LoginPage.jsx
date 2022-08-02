@@ -2,20 +2,21 @@ import React, {useState} from "react";
 import './LoginStyles.css'
 import NavigationHeader from "../NavigationHeader";
 import {Link} from "react-router-dom";
-import RegisterService from "../../api/RegisterService";
+import LoginService from "../../api/LoginService";
 
 function Login() {
-
 
     const [userName, setUsername] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
     function loginSubmit() {
-        console.log(RegisterService()
-            .then(response => {
-                console.log(userName)
+        LoginService(userName, userPassword)
+            .then((response) => {
+                console.log(response.data)
             })
-        )
+            .catch((response) => {
+                console.log(response.status)
+            })
     }
 
     return (

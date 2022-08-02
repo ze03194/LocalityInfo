@@ -19,7 +19,6 @@ function RegisterPage() {
     function registerSubmit() {
         RegisterService(user)
             .then((response) => {
-                // console.log(response.status)
                 if (response.status === 200) {
                     navigate("/login")
                 }
@@ -27,7 +26,6 @@ function RegisterPage() {
             .catch((response) => {
                 console.log(response.status)
             })
-        // console.log(user)
     }
 
     return (
